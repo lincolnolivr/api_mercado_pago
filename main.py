@@ -64,9 +64,8 @@ def create_report(token, start_date, end_date):
 
     response = requests.post(base_url, headers=headers, data=json.dumps(body))
     if response.status_code == 202:
-        print(f'Report created successfully! Start_date: {start_date} ')
+        print(f'Report created successfully! Date range from {start_date} to {end_date}')
  
-    print(response.status_code)
     return response.content
 
 def download_last_report(token, folder_path=None):
