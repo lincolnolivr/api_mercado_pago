@@ -1,6 +1,6 @@
 # %%
 
-__version__ = '0.1.1'
+__version__ = '0.1.2'
 
 # %%
 import os
@@ -63,6 +63,9 @@ def create_report(token, start_date, end_date):
 
 
     response = requests.post(base_url, headers=headers, data=json.dumps(body))
+    if response.status_code == 202:
+        print(f'Report created successfully! Start_date: {start_date} ')
+ 
     print(response.status_code)
     return response.content
 
