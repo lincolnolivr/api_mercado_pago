@@ -1,6 +1,6 @@
 # %%
 
-__version__ = '0.1.0'
+__version__ = '0.1.1'
 
 # %%
 import os
@@ -74,7 +74,7 @@ def download_last_report(token, folder_path=None):
     reports = json.loads(reports)
     df = pd.DataFrame(reports)
     
-    last_report = get_report(access_token, df['file_name'][0]).decode('utf-8')
+    last_report = get_report(token, df['file_name'][0]).decode('utf-8')
     data = pd.read_csv(StringIO(last_report))
 
     data.to_csv(os.path.join(folder_path, df['file_name'][0]), index=False)
@@ -85,6 +85,7 @@ def main():
     load_dotenv(dotenv_path=env_path)
 
     access_token = os.getenv('MERCADO_PAGO_ACCESS_TOKEN')
+    folder_path = os.getenv('FOLDER_PATH')
     # API accepts maximun to get data for a whole month
     start_date = (datetime.today().replace(day=1) - timedelta(days=1)).strftime('%Y-%m-%dT00:00:00Z')
     end_date = datetime.today().strftime('%Y-%m-%dT00:00:00Z')
@@ -93,7 +94,7 @@ def main():
 
     time.sleep(60)
 
-    download_last_report(access_token, 'data')
+    download_last_report(access_token, folder_path)
 
 if __name__ == '__main__':
     main()
