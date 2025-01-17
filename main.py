@@ -1,6 +1,6 @@
 # %%
 
-__version__ = '0.1.2'
+__version__ = '0.2.0'
 
 # %%
 import os
@@ -75,6 +75,8 @@ def download_last_report(token, folder_path=None):
     reports = get_reports(token).decode('utf-8')
     reports = json.loads(reports)
     df = pd.DataFrame(reports)
+
+    print(f'Downloading report {df['file_name'][0]}...')
     
     last_report = get_report(token, df['file_name'][0]).decode('utf-8')
     data = pd.read_csv(StringIO(last_report))
@@ -92,9 +94,12 @@ def main():
     start_date = (datetime.today().replace(day=1) - timedelta(days=1)).strftime('%Y-%m-%dT00:00:00Z')
     end_date = datetime.today().strftime('%Y-%m-%dT00:00:00Z')
 
+    # start_date = '2024-09-01T03:00:00Z'
+    # end_date = '2024-09-30T03:00:00Z'
+
     create_report(access_token, start_date, end_date)
 
-    time.sleep(60)
+    time.sleep(90)
 
     download_last_report(access_token, folder_path)
 
